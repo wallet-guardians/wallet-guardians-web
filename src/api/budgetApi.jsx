@@ -52,18 +52,11 @@ export const getBudget = async () => {
 };
 
 // 예산 수정 (PUT) 수정하는 페이지에서 사용 수정하는 페이지나 모달을 새로 만들어야 할 듯..?
-export const updateBudget = async (id, userId, goalAmount, date) => {
+export const updateBudget = async ( goalAmount ) => {
   try {
     const response = await apiClient.put(
-      `/budget/${id}`,
-      { id, user_id: userId, budget_amount: goalAmount, date },
-      {
-        headers: {
-          'Content-Type': 'application/json',
-          'ACCESS-AUTH-KEY': `BEARER ${localStorage.getItem('accessToken')}`,
-          'REFRESH-AUTH-KEY': `BEARER ${localStorage.getItem('refreshToken')}`,
-        },
-      }
+      `/budget`,
+      { amount: goalAmount },
     );
     return response.data;
   } catch (error) {

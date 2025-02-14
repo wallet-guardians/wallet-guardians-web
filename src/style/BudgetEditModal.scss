@@ -72,7 +72,7 @@ $navy-color: #002366;
 /* 버튼 스타일 */
 .button-group {
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   gap: 12px;
   margin-top: 10px;
 }

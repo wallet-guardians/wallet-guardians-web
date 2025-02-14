@@ -30,7 +30,7 @@ const userInfoTextStyles = css`
   opacity: 0.9;
 `;
 
-const UserInfoComponent = () => {
+const UserInfoComponent = ({ updatedBudget }) => {
   const [userInfo, setUserInfo] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -66,6 +66,12 @@ const UserInfoComponent = () => {
     fetchUserData();
     fetchUserBudget();
   }, []);
+
+  useEffect(() => {
+    if (updatedBudget !== undefined) {
+      setUserBudget(updatedBudget);
+    }
+  }, [updatedBudget]);
 
   return (
     <div css={userInfoStyles}>

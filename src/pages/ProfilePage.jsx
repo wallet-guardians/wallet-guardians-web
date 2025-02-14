@@ -35,7 +35,7 @@ const ProfilePage = () => {
         <div className="profile-card">
           <img 
             className="profile-image" 
-            src={profileData.profileImage || "https://via.placeholder.com/100"} 
+            src={profileData.profileImageUrl || "https://via.placeholder.com/100"}  // ✅ 프로필 이미지 연동
             alt="Profile" 
           />
           <h2 className="profile-name">{profileData.username}</h2>

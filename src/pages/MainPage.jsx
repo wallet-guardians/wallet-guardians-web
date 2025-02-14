@@ -11,7 +11,7 @@ import BudgetEditModal from './BudgetEditModal';
 import '../style/MainPage.scss';
 
 const MainPage = () => {
-  const { goalAmount, error } = useContext(GoalContext);
+  const { goalAmount, error, setGoalAmount } = useContext(GoalContext);
   const { isSidebarOpen } = useContext(SidebarContext);
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -19,7 +19,23 @@ const MainPage = () => {
   const [totalSpent, setTotalSpent] = useState(0); // 전체 사용된 예산
   const [isOverBudget, setIsOverBudget] = useState(false); // 예산 초과 여부 검증
 
+
   const navigate = useNavigate();
+
+  const fetchBudget = async () => {
+    try {
+      const budget = await getBudget();
+      if (budget && budget.amount) {
+        setGoalAmount(budget.amount);
+      }
+    } catch (error) {
+      console.error('❌ 예산 조회 실패:', error);
+    }
+  };
+
+  useEffect(() => {
+    fetchBudget();
+  }, []);
 
   // 현재 월의 지출 데이터를 가져오는 함수 -> 매우 중요한 함수 (서버에서 받아온 객체 배열을 순회한다.)
   const fetchExpensesForMonth = async (year, month) => {
@@ -56,11 +72,12 @@ const MainPage = () => {
   };
 
   //  현재 선택된 달의 지출 내역 불러오기
+  
   useEffect(() => {
     const year = moment(selectedDate).format('YYYY');
     const month = moment(selectedDate).format('M');
     fetchExpensesForMonth(year, month);
-  }, [selectedDate]);
+  }, [selectedDate, goalAmount]);
 
   // 새로운 지출을 추가한 후, 다시 월별 지출 내역을 불러오도록 설정
   const handleExpenseAdded = () => {
@@ -198,13 +215,10 @@ const MainPage = () => {
         isOpen={isModalOpen}
         onClose={() => {
           setIsModalOpen(false);
-          handleExpenseAdded(); //  예산 수정을 했다. 즉, 금액 수정 모달을 누르고 닫았다면? 그 결과로 최신화해야하는 함수를 발동한다.
+          refreshBudget();
         }}
-        budgetData={{
-          id: 1,
-          goalAmount: goalAmount || 0,
-          date: moment().format('YYYY-MM'),
-        }}
+        budgetData={{ goalAmount }}
+        setGoalAmount={setGoalAmount}
       />
     </div>
   );

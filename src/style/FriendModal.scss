@@ -319,7 +319,29 @@ h2, h3 {
       background: #999;
     }
   }
+  .request-list {
+    margin: 10px 0;
+    padding: 10px 0;
+    background-color: white;
+    max-height: 150px;
+    overflow-y: auto;
+    text-align: left;
+    border-bottom: 3px solid $navy-color; /* 🔹 구분선 추가 */
+  }
   
+  /* 데이터가 없을 때 메시지 스타일 */
+  .no-data-message {
+    text-align: center;
+    color: #666;
+    margin-top: 10px;
+  } 
+  .no-data-request-message{
+    text-align: center;
+    margin-right: 0px;
+    padding-right: 35px;
+    color: #666;
+  }
+
 
 
 
